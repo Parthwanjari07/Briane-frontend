@@ -130,11 +130,11 @@ const Dashboard = () => {
         </div>
         
         {/* Top Competitor Ads */}
-        <h2 className="text-xl font-bold mb-4">Top Competitor Ads</h2>
+        <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Top Competitor Ads</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {topAds.map((ad, index) => (
-            <div key={index} className="bg-white p-5 rounded-lg shadow-sm">
-              <div className="h-32 bg-gray-200 rounded-md mb-4 overflow-hidden">
+            <div key={index} className={`${darkMode ? 'bg-dark-100' : 'bg-white'} p-5 rounded-lg ${darkMode ? 'shadow-dark-md' : 'shadow-sm'}`}>
+              <div className={`h-32 ${darkMode ? 'bg-dark-300' : 'bg-gray-200'} rounded-md mb-4 overflow-hidden`}>
                 <img 
                   src={
                     index === 0 
@@ -147,16 +147,16 @@ const Dashboard = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="font-medium mb-1">{ad.brand}</h3>
-              <div className="text-gray-600 text-sm mb-1">{ad.format} - {ad.cta}</div>
+              <h3 className={`font-medium mb-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{ad.brand}</h3>
+              <div className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mb-1`}>{ad.format} - {ad.cta}</div>
               <div className="flex justify-between mt-2">
                 <div className="text-sm">
-                  <span className="text-gray-600">Estimated CTR: </span>
-                  <span className="font-medium">{ad.estimatedCTR}</span>
+                  <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Estimated CTR: </span>
+                  <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{ad.estimatedCTR}</span>
                 </div>
                 <div className="text-sm">
-                  <span className="text-gray-600">Engagement Score: </span>
-                  <span className="font-medium">{ad.engagementScore}</span>
+                  <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Engagement Score: </span>
+                  <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{ad.engagementScore}</span>
                 </div>
               </div>
             </div>
