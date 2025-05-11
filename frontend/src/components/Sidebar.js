@@ -73,7 +73,7 @@ const Sidebar = () => {
   return (
     <div className="w-64 bg-white h-screen shadow-md">
       <div className="p-4 border-b">
-        <div className="text-2xl font-bold">LOGO</div>
+        <div className="text-2xl font-bold text-blue-800">BRAINE</div>
       </div>
       
       <nav className="p-4">
