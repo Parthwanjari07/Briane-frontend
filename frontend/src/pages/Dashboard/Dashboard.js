@@ -125,7 +125,19 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {topAds.map((ad, index) => (
             <div key={index} className="bg-white p-5 rounded-lg shadow-sm">
-              <div className="h-32 bg-gray-200 rounded-md mb-4"></div>
+              <div className="h-32 bg-gray-200 rounded-md mb-4 overflow-hidden">
+                <img 
+                  src={
+                    index === 0 
+                      ? "https://images.unsplash.com/photo-1597075095308-0b47fc649175" 
+                      : index === 1
+                        ? "https://images.unsplash.com/photo-1612810806563-4cb8265db55f"
+                        : "https://images.unsplash.com/photo-1636247497842-81ee9c80f9df"
+                  } 
+                  alt={`${ad.brand} Ad`} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h3 className="font-medium mb-1">{ad.brand}</h3>
               <div className="text-gray-600 text-sm mb-1">{ad.format} - {ad.cta}</div>
               <div className="flex justify-between mt-2">
