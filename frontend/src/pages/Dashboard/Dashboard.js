@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import Sidebar from "../../components/Sidebar";
+import { useTheme } from "../../contexts/ThemeContext";
+import MainLayout from "../../layouts/MainLayout";
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
+  const { darkMode } = useTheme();
   const [competitors, setCompetitors] = useState([]);
   const [loading, setLoading] = useState(true);
   
