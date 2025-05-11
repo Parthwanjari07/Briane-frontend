@@ -28,11 +28,20 @@ const Login = () => {
   return (
     <div className="flex h-screen">
       {/* Left side - Blue background with AD Tech */}
-      <div className="hidden md:flex md:w-1/2 bg-blue-800 text-white flex-col justify-center items-center p-8">
-        <h1 className="text-4xl font-bold mb-4">AD Tech</h1>
-        <p className="text-lg text-center">
-          Next-gen AI to analyze your brand, track competitors, and generate ads that convert.
-        </p>
+      <div className="hidden md:flex md:w-1/2 bg-blue-800 text-white flex-col justify-center items-center p-8 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <img 
+            src="https://images.unsplash.com/photo-1581094289810-adf5d25690e3" 
+            alt="Data Analytics" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="relative z-10 text-center">
+          <h1 className="text-4xl font-bold mb-4">BRAINE</h1>
+          <p className="text-lg">
+            Next-gen AI to analyze your brand, track competitors, and generate ads that convert.
+          </p>
+        </div>
       </div>
       
       {/* Right side - Login form */}
