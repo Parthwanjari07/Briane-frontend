@@ -166,35 +166,35 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Brand Benchmarks */}
           <div>
-            <h2 className="text-xl font-bold mb-4">Your Brand vs Industry Benchmarks</h2>
-            <div className="bg-white p-5 rounded-lg shadow-sm">
+            <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Your Brand vs Industry Benchmarks</h2>
+            <div className={`${darkMode ? 'bg-dark-100' : 'bg-white'} p-5 rounded-lg ${darkMode ? 'shadow-dark-md' : 'shadow-sm'}`}>
               <div className="mb-4">
                 <div className="flex justify-between mb-1">
-                  <div className="font-medium">CTR</div>
-                  <div className="font-medium">{benchmarkData.ctr}</div>
+                  <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>CTR</div>
+                  <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{benchmarkData.ctr}</div>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="bg-blue-600 h-full" style={{ width: "40%" }}></div>
+                <div className={`h-2 ${darkMode ? 'bg-dark-300' : 'bg-gray-200'} rounded-full overflow-hidden`}>
+                  <div className={`${darkMode ? 'bg-purple-primary' : 'bg-blue-600'} h-full`} style={{ width: "40%" }}></div>
                 </div>
               </div>
               
               <div className="mb-4">
                 <div className="flex justify-between mb-1">
-                  <div className="font-medium">Engagement Rate</div>
-                  <div className="font-medium">{benchmarkData.engagementRate}</div>
+                  <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>Engagement Rate</div>
+                  <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{benchmarkData.engagementRate}</div>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="bg-blue-600 h-full" style={{ width: "30%" }}></div>
+                <div className={`h-2 ${darkMode ? 'bg-dark-300' : 'bg-gray-200'} rounded-full overflow-hidden`}>
+                  <div className={`${darkMode ? 'bg-purple-primary' : 'bg-blue-600'} h-full`} style={{ width: "30%" }}></div>
                 </div>
               </div>
               
               <div>
                 <div className="flex justify-between mb-1">
-                  <div className="font-medium">Avg Weekly Spend</div>
-                  <div className="font-medium">${benchmarkData.avgWeeklySpend}</div>
+                  <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>Avg Weekly Spend</div>
+                  <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>${benchmarkData.avgWeeklySpend}</div>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="bg-blue-600 h-full" style={{ width: "65%" }}></div>
+                <div className={`h-2 ${darkMode ? 'bg-dark-300' : 'bg-gray-200'} rounded-full overflow-hidden`}>
+                  <div className={`${darkMode ? 'bg-purple-primary' : 'bg-blue-600'} h-full`} style={{ width: "65%" }}></div>
                 </div>
               </div>
             </div>
@@ -202,20 +202,24 @@ const Dashboard = () => {
           
           {/* AI Alerts */}
           <div>
-            <h2 className="text-xl font-bold mb-4">AI Alerts</h2>
-            <div className="bg-white p-5 rounded-lg shadow-sm">
+            <h2 className={`text-xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>AI Alerts</h2>
+            <div className={`${darkMode ? 'bg-dark-100' : 'bg-white'} p-5 rounded-lg ${darkMode ? 'shadow-dark-md' : 'shadow-sm'}`}>
               {aiAlerts.map((alert, index) => (
                 <div key={index} className="mb-4 last:mb-0">
-                  <h3 className="font-medium">{alert.type}</h3>
-                  <p className={`text-sm ${index === 1 ? "text-red-600" : "text-gray-600"}`}>{alert.content}</p>
-                  {index < aiAlerts.length - 1 && <hr className="my-3" />}
+                  <h3 className={`font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{alert.type}</h3>
+                  <p className={`text-sm ${
+                    index === 1 
+                      ? (darkMode ? 'text-red-400' : 'text-red-600') 
+                      : (darkMode ? 'text-gray-400' : 'text-gray-600')
+                  }`}>{alert.content}</p>
+                  {index < aiAlerts.length - 1 && <hr className={`my-3 ${darkMode ? 'border-dark-300' : 'border-gray-200'}`} />}
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 
