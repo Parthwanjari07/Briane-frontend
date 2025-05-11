@@ -115,12 +115,16 @@ const Dashboard = () => {
           {competitors.slice(0, 5).map((competitor, index) => (
             <div 
               key={competitor.id} 
-              className={`bg-white p-4 rounded-lg shadow-sm border-t-4 ${index === 0 ? "border-blue-500" : "border-gray-200"}`}
+              className={`${darkMode ? 'bg-dark-100' : 'bg-white'} p-4 rounded-lg ${darkMode ? 'shadow-dark-md' : 'shadow-sm'} border-t-4 ${
+                index === 0 
+                  ? (darkMode ? 'border-purple-primary' : 'border-blue-500') 
+                  : (darkMode ? 'border-dark-300' : 'border-gray-200')
+              }`}
             >
-              <h3 className="font-medium text-lg mb-2">{competitor.name}</h3>
-              <div className="text-gray-700 mb-1">{competitor.daysLive} days live</div>
-              <div className="text-gray-700 mb-1">{competitor.newCampaigns} new campaigns this week</div>
-              <div className="text-gray-700">Spend: {competitor.spendRange}</div>
+              <h3 className={`font-medium text-lg mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{competitor.name}</h3>
+              <div className={`${darkMode ? 'text-gray-400' : 'text-gray-700'} mb-1`}>{competitor.daysLive} days live</div>
+              <div className={`${darkMode ? 'text-gray-400' : 'text-gray-700'} mb-1`}>{competitor.newCampaigns} new campaigns this week</div>
+              <div className={`${darkMode ? 'text-gray-400' : 'text-gray-700'}`}>Spend: {competitor.spendRange}</div>
             </div>
           ))}
         </div>
