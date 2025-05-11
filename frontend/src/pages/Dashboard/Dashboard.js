@@ -68,15 +68,14 @@ const Dashboard = () => {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-800"></div>
+      <div className={`min-h-screen ${darkMode ? 'bg-dark-200' : 'bg-gray-100'} flex items-center justify-center`}>
+        <div className={`animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 ${darkMode ? 'border-purple-primary' : 'border-blue-800'}`}></div>
       </div>
     );
   }
   
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+    <MainLayout>
       
       <div className="flex-1 p-8">
         <header className="flex justify-between items-center mb-8">
