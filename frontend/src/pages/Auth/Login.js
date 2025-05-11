@@ -1,114 +1,204 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
+  const { darkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
-
+    
+    if (!formData.email || !formData.password) {
+      setError("Please enter both email and password");
+      return;
+    }
+    
     try {
-      await login(email, password);
+      setIsLoading(true);
+      await login(formData.email, formData.password);
       navigate("/dashboard");
-    } catch (error) {
-      setError("Failed to sign in");
+    } catch (err) {
+      setError("Failed to log in: " + (err.message || "Please check your credentials"));
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Left side - Blue background with AD Tech */}
-      <div className="hidden md:flex md:w-1/2 bg-blue-800 text-white flex-col justify-center items-center p-8 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <img 
-            src="https://images.unsplash.com/photo-1581094289810-adf5d25690e3" 
-            alt="Data Analytics" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="relative z-10 text-center">
-          <h1 className="text-4xl font-bold mb-4">BRAINE</h1>
-          <p className="text-lg">
-            Next-gen AI to analyze your brand, track competitors, and generate ads that convert.
-          </p>
-        </div>
+    <div className={`min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ${darkMode ? 'bg-dark-200' : 'bg-gray-50'}`}>
+      <div className="absolute top-4 right-4">
+        <button 
+          onClick={toggleDarkMode}
+          className={`p-2 rounded-full ${darkMode ? 'bg-dark-100 text-purple-primary' : 'bg-gray-100 text-gray-600'}`}
+          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {darkMode ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          )}
+        </button>
       </div>
       
-      {/* Right side - Login form */}
-      <div className="w-full md:w-1/2 flex items-center justify-center bg-white">
-        <div className="w-full max-w-md p-8">
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-bold">Hello!</h2>
-            <p className="text-gray-600">Log in to Continue</p>
+      <div className={`max-w-md w-full space-y-8 p-8 rounded-lg ${darkMode ? 'bg-dark-100 shadow-dark-lg' : 'bg-white shadow-md'}`}>
+        <div>
+          <h2 className={`mt-6 text-center text-3xl font-extrabold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            Sign in to BRAINE
+          </h2>
+          <p className={`mt-2 text-center text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            Or{" "}
+            <Link
+              to="/signup"
+              className={`font-medium ${
+                darkMode 
+                  ? 'text-purple-primary hover:text-purple-light' 
+                  : 'text-blue-600 hover:text-blue-500'
+              }`}
+            >
+              create a new account
+            </Link>
+          </p>
+        </div>
+
+        {error && (
+          <div className="bg-red-100 text-red-800 p-3 rounded-md text-sm">
+            {error}
+          </div>
+        )}
+
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md -space-y-px">
+            <div className="mb-4">
+              <label 
+                htmlFor="email" 
+                className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+              >
+                Email address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className={`appearance-none relative block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:z-10 sm:text-sm ${
+                  darkMode 
+                    ? 'bg-dark-300 border-dark-100 text-white focus:ring-purple-primary'
+                    : 'border-gray-300 placeholder-gray-500 text-gray-900 focus:ring-blue-500'
+                }`}
+                placeholder="Email address"
+              />
+            </div>
+            
+            <div>
+              <label 
+                htmlFor="password" 
+                className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className={`appearance-none relative block w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:z-10 sm:text-sm ${
+                  darkMode 
+                    ? 'bg-dark-300 border-dark-100 text-white focus:ring-purple-primary'
+                    : 'border-gray-300 placeholder-gray-500 text-gray-900 focus:ring-blue-500'
+                }`}
+                placeholder="Password"
+              />
+            </div>
           </div>
 
-          {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
-          
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-2">Email</label>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
               <input
-                type="email"
-                id="email"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className={`h-4 w-4 focus:ring-0 ${
+                  darkMode 
+                    ? 'bg-dark-300 border-dark-100 text-purple-primary'
+                    : 'border-gray-300 text-blue-600'
+                }`}
               />
+              <label 
+                htmlFor="remember-me" 
+                className={`ml-2 block text-sm ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}
+              >
+                Remember me
+              </label>
             </div>
-            
-            <div className="mb-6">
-              <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-2">Password</label>
-              <input
-                type="password"
-                id="password"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+
+            <div className="text-sm">
+              <button
+                type="button"
+                className={`font-medium ${
+                  darkMode 
+                    ? 'text-purple-primary hover:text-purple-light'
+                    : 'text-blue-600 hover:text-blue-500'
+                }`}
+              >
+                Forgot your password?
+              </button>
             </div>
-            
+          </div>
+
+          <div>
             <button
               type="submit"
-              className="w-full bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mb-4"
-              disabled={loading}
+              disabled={isLoading}
+              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+                isLoading
+                  ? (darkMode ? 'bg-purple-800' : 'bg-blue-400')
+                  : (darkMode 
+                      ? 'bg-purple-primary hover:bg-purple-hover'
+                      : 'bg-blue-600 hover:bg-blue-700')
+              } focus:outline-none focus:ring-2 ${
+                darkMode ? 'focus:ring-purple-400' : 'focus:ring-blue-500'
+              } focus:ring-offset-2 disabled:opacity-50 transition-colors`}
             >
-              {loading ? "Signing in..." : "Continue"}
+              {isLoading ? "Signing in..." : "Sign in"}
             </button>
-          </form>
-          
-          <div className="text-center my-4">
-            <span className="text-gray-500">or</span>
           </div>
           
-          <button
-            className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded flex items-center justify-center hover:bg-gray-50 mb-4"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" className="mr-2">
-              <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-              <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-              <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-              <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-            </svg>
-            Continue with Google
-          </button>
-          
-          <div className="text-center text-sm text-gray-600">
-            <span>Don't have an account? </span>
-            <Link to="/signup" className="text-blue-600 hover:underline">Sign Up</Link>
+          <div className={`mt-4 text-center text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p>
+              For demo purposes, you can use:
+              <br />
+              email: demo@example.com | password: password123
+            </p>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
